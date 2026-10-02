@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Anubis</title>
+    <link rel="stylesheet" href="src/options.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="masthead">
+        <img class="mascot" src="assets/icons/icon-128.png" alt="" width="48" height="48" />
+        <h1>Anubis</h1>
+        <span id="version" class="pill"></span>
+      </header>
+      <p class="hint tagline">Anubis weighs every post against the feather. If it reads as machine-made, it is exiled to the Duat. Everything runs on this computer.</p>
+
+      <div id="stale" class="banner" role="alert" hidden>
+        <strong>Chrome is running old code.</strong>
+        Running version <span id="runningVersion"></span>. Files on disk are version <span id="diskVersion"></span>. Reload the extension, then reload your open tabs.
+      </div>
+
+      <section class="card" aria-labelledby="modelTitle">
+        <h2 id="modelTitle">On-device model</h2>
+        <p id="modelLine" class="hint" aria-live="polite"></p>
+        <div class="actions">
+          <button id="modelRetry" type="button" class="button" hidden>Try again</button>
+        </div>
+        <p class="hint">Posts are scored on this computer. Nothing you read is sent anywhere, and the model ships inside the extension, so there is nothing to download.</p>
+      </section>
+
+      <section class="card" aria-labelledby="settingsTitle">
+        <h2 id="settingsTitle">Settings</h2>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="threshold">Hide posts at or above</label>
+            <span class="pill pill-accent"><span id="thresholdValue">75</span>%</span>
+          </div>
+          <input id="threshold" type="range" min="50" max="99" step="1" value="75" aria-describedby="thresholdHint" />
+          <div id="thresholdHint" class="scale hint">
+            <span>50%: hides more</span>
+            <span>99%: hides less</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="mode">When a post is flagged</label>
+          <div class="select">
+            <select id="mode">
+              <option value="collapse">Collapse it</option>
+              <option value="animated">Animated</option>
+              <option value="dim">Dim it</option>
+              <option value="badge">Only show a badge</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field field-switch">
+          <div>
+            <label for="labeling">Label buttons</label>
+            <p id="labelingHint" class="hint">Show AI and Human buttons on every scored post.</p>
+          </div>
+          <input id="labeling" class="switch" type="checkbox" role="switch" aria-describedby="labelingHint" />
+        </div>
+
+        <div class="field field-switch">
+          <div>
+            <label for="stats">Live stats panel</label>
+            <p id="statsHint" class="hint">Show posts scanned, posts exiled, and scoring time on the side of the page. Made for demos.</p>
+          </div>
+          <input id="stats" class="switch" type="checkbox" role="switch" aria-describedby="statsHint" />
+        </div>
+
+        <div class="actions">
+          <span class="hint">Changes save on their own.</span>
+          <span id="status" class="status" role="status" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <section class="card card-small" aria-labelledby="blockedTitle">
+        <h2 id="blockedTitle">Blocked accounts</h2>
+        <p id="blockedCount" class="hint"></p>
+        <ul id="blockedList" class="blocked-list"></ul>
+        <div class="actions">
+          <button id="exportBlocked" class="button" type="button">Export blocked.json</button>
+          <label class="button" for="importBlocked">Import blocked.json</label>
+          <input id="importBlocked" type="file" accept="application/json" hidden />
+        </div>
+      </section>
+
+      <section class="card card-small" aria-labelledby="labelsTitle">
+        <h2 id="labelsTitle">Labels</h2>
+        <p id="labelCounts"></p>
+        <div class="actions">
+          <button id="exportLabels" class="button" type="button">Export labels.json</button>
+          <button id="clearLabels" class="button button-danger" type="button">Clear labels</button>
+        </div>
+      </section>
+
+      <section class="card card-small" aria-labelledby="codeTitle">
+        <h2 id="codeTitle">Code changes</h2>
+        <p class="hint">Changed the code? Reload the extension here, then reload your open tabs.</p>
+        <div class="actions">
+          <button id="reloadExtension" class="button" type="button">Reload extension</button>
+        </div>
+      </section>
+
+    </main>
+
+    <script src="src/constants.js"></script>
+    <script src="src/options.js"></script>
+  </body>
+</html>

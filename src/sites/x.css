@@ -1,0 +1,12 @@
+/* X lays a tweet out as a flex row. Wrapping puts the bar on its own line. */
+article[data-testid="tweet"]:has(> .anubis-bar) {
+  flex-wrap: wrap;
+}
+
+/* A tweet's bottom right corner holds the bookmark and share icons, and its top right
+   corner holds the Grok and menu icons. The chip goes in the header row, left of those. */
+article[data-testid="tweet"] {
+  --anubis-chip-top: 10px;
+  --anubis-chip-right: 88px;
+  --anubis-chip-bottom: auto;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "anubis",
+  "version": "1.0.0",
+  "description": "Anubis weighs every post on X and exiles the AI-written ones to the Duat, fully offline.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "test": "node --test",
+    "lint": "eslint .",
+    "zip:chrome": "node scripts/zip.mjs chrome",
+    "zip:firefox": "node scripts/zip.mjs firefox"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0"
+  }
+}

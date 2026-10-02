@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.DS_Store
+
+# Your exported labels.
+labels*.json
+
+# Too large for git (294 MB and 33 MB). They are attached to releases; build them with training/README.md.
+model/*.onnx
+model/tokenizer.json
+
+# Training outputs.
+training/export/
+training/*.npz
+training/*.jsonl

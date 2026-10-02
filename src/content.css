@@ -1,0 +1,170 @@
+/* Shared by every site. Site-specific layout fixes live in src/sites/<site>.css.
+   State is in data attributes, not classes: X rewrites a post's class list on hover. */
+[data-anubis-hide="collapse"] > :not(.anubis-bar) {
+  display: none !important;
+}
+
+[data-anubis-hide="dim"] > :not(.anubis-bar) {
+  opacity: 0.25;
+}
+
+/* The score is a small chip pinned to a corner of the post. It floats over the post
+   instead of taking a row, so scoring a post never changes its height. A site's CSS can
+   move it with --anubis-chip-top, --anubis-chip-right, and --anubis-chip-bottom. */
+[data-anubis-bar="true"] {
+  position: relative;
+}
+
+.anubis-bar {
+  position: absolute;
+  top: var(--anubis-chip-top, auto);
+  right: var(--anubis-chip-right, 8px);
+  bottom: var(--anubis-chip-bottom, 4px);
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  font: 11px/16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: rgb(113, 118, 123);
+  background: rgba(127, 127, 127, 0.14);
+  opacity: 0.8;
+}
+
+/* The label controls show up when the chip is hovered. The blur keeps them readable
+   if the wider chip covers some text. */
+.anubis-bar .anubis-extra {
+  display: none;
+}
+
+.anubis-bar:hover {
+  opacity: 1;
+  backdrop-filter: blur(8px);
+}
+
+.anubis-bar:hover .anubis-extra {
+  display: inline-block;
+}
+
+.anubis-bar.anubis-flagged {
+  color: rgb(184, 134, 11);
+}
+
+/* A collapsed post has nothing left but this, so here it is a full row with every
+   control showing. */
+[data-anubis-hide="collapse"] > .anubis-bar {
+  position: static;
+  flex: 0 0 100%;
+  min-height: 28px;
+  gap: 8px;
+  padding: 4px 16px;
+  border-radius: 0;
+  font-size: 12px;
+  background: transparent;
+  opacity: 1;
+  backdrop-filter: none;
+}
+
+[data-anubis-hide="collapse"] > .anubis-bar .anubis-extra {
+  display: inline-block;
+}
+
+.anubis-button {
+  padding: 1px 8px;
+  border: 1px solid currentColor;
+  border-radius: 9999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.anubis-button:hover,
+.anubis-button.anubis-active {
+  background: rgba(113, 118, 123, 0.2);
+}
+
+/* Animated mode: a scan line bounces while the model decides, then green (pass) or
+   red (fail) fades in. Failed posts then close in on themselves. */
+[data-anubis-animating] {
+  --anubis-scan: rgb(120, 200, 255);
+  --anubis-pass: rgba(0, 186, 124, 0.42);
+  --anubis-pass-edge: rgb(0, 230, 150);
+  --anubis-fail: rgba(244, 33, 46, 0.62);
+  --anubis-fail-edge: rgb(255, 72, 84);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* The strip is only the trail: a gradient that is clear at the far end and brightest
+   next to the line. It has no border or shadow of its own. A shadow on the strip
+   glows around all four edges, and the far edge then shows up as a second line.
+
+   Going down: shifted up by its own height, so `top` is where the line sits and the
+   trail fades upward behind it. */
+.anubis-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  transform: translateY(-100%);
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--anubis-scan) 42%, transparent));
+}
+
+/* The one bright line, on the leading edge. The glow belongs to the line alone. */
+.anubis-scanline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--anubis-scan);
+  box-shadow: 0 0 18px var(--anubis-scan);
+}
+
+/* Going up: mirrored. `top` is the line and the trail fades downward behind it. */
+.anubis-scanline.anubis-scan-up {
+  transform: none;
+  background: linear-gradient(to top, transparent, color-mix(in srgb, var(--anubis-scan) 42%, transparent));
+}
+
+.anubis-scanline.anubis-scan-up::after {
+  top: 0;
+  bottom: auto;
+}
+
+/* The verdict covers the whole post and fades in. */
+.anubis-fill {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  background: var(--anubis-verdict);
+  box-shadow: inset 0 0 0 2px var(--anubis-verdict-edge);
+}
+
+.anubis-fill.anubis-pass {
+  --anubis-verdict: var(--anubis-pass);
+  --anubis-verdict-edge: var(--anubis-pass-edge);
+}
+
+.anubis-fill.anubis-fail {
+  --anubis-verdict: var(--anubis-fail);
+  --anubis-verdict-edge: var(--anubis-fail-edge);
+}
+
+/* The offer to block an account, under a flagged post. */
+.anubis-offer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px;
+  font: 12px/16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: rgb(184, 134, 11);
+}
